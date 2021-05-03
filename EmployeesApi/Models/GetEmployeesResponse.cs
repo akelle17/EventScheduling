@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeesApi.Data
+namespace EmployeesApi.Models
 {
-    public class Employee
+    public class GetEmployeesResponse
+    {
+        public IList<GetEmployeesSummaryResponse> Data { get; set; }
+    }
+
+    public class GetEmployeesSummaryResponse
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Department { get; set; }
-        public decimal Salary { get; set; }
-        public bool IsActive { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public bool IsScheduledForRif { get; set; }
     }
+
 }

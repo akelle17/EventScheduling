@@ -14,5 +14,15 @@ namespace EmployeesApi.Data
         }
 
         public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Salary)
+                .HasPrecision(16, 3);
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.FirstName)
+                .HasMaxLength(200);
+        }
     }
 }
