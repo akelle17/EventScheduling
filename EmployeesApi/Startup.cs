@@ -53,6 +53,15 @@ namespace EmployeesApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeesApi v1"));
             }
 
+
+            app.Use(async (context, next) =>
+            {
+                // you can't change anything.
+                await Task.Delay(1500);
+                await next.Invoke();
+                // after the controller runs.
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();

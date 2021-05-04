@@ -19,6 +19,22 @@ namespace EmployeesApi.Controllers
             _context = context;
         }
 
+        [HttpHead("{id:int}")]
+        public async Task<ActionResult> CheckForEmployee(int id)
+        {
+            var any = await _context.Employees.Where(e => e.Id == id && e.IsActive).AnyAsync();
+
+            return any ? Ok() : NotFound();
+        }
+
+        [HttpHead("emails/{emailAddress}")]
+        public async Task<ActionResult> CheckForEmailAddres(string emailAddress)
+        {
+            var any = await _context.Employees.Where(e => e.IsActive && e.Email == emailAddress).AnyAsync();
+
+            return any ? Ok() : NotFound();
+        }
+
         // GET /
         [HttpGet]
         public async Task<ActionResult> GetAllEmployees()
