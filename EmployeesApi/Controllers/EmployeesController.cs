@@ -35,25 +35,27 @@ namespace EmployeesApi.Controllers
             return any ? Ok() : NotFound();
         }
 
-        // GET /
         [HttpGet]
-        public async Task<ActionResult> GetAllEmployees()
+        public async Task<ActionResult<GetEmployeesResponse>> GetAllEmployees()
         {
+
             var employees = await _context.Employees
                 .Where(e => e.IsActive)
                 .Select(e => new GetEmployeesSummaryResponse
                 {
-                    FirstName = e.FirstName
-                })
-                .ToListAsync();
+                    Id = e.Id,
+                    Department = e.Department,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName
+                }).ToListAsync();
+
 
             var response = new GetEmployeesResponse();
             response.Data = employees;
-
-            return Ok(employees);
+            return Ok(response);
         }
+        // GET /{id}
 
-        // GET/{id}
         [HttpGet("{id:int}")]
         public async Task<ActionResult> GetAnEmployee(int id)
         {
@@ -61,19 +63,27 @@ namespace EmployeesApi.Controllers
                 .Where(e => e.Id == id && e.IsActive)
                 .Select(e => new GetEmployeeDetailsReponse
                 {
-                    FirstName = e.FirstName
-                })
-                .ToListAsync();
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Department = e.Department,
+                    Email = e.Email,
+                    Phone = e.Phone
+
+                }).SingleOrDefaultAsync();
 
             if (response == null)
             {
                 return NotFound();
-            } else
+            }
+            else
             {
                 return Ok(response);
             }
-        }
 
+
+
+        }
         // POST /
     }
 }
